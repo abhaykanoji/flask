@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="../static/style.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .strike {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <h1>To do list</h1>
+    <form class="input-container" action="{{ url_for('home') }}" method="POST">
+        <input type="text" placeholder="enter todo" id="input-todo" name="todo_name">
+        <button id="add-todo">+</button>
+    </form>
+
+    <h2>todos</h2>
+    <div class="todo-container">
+        {% for item in items %}
+        <div class="todo" id="todo-{{ item['id'] }}">
+            <p id="todo-job-{{ item['id'] }}" class="{% if item.checked %}strike{% endif %}">{{ item['name'] }}</p>
+            <div class="actions">
+                <form action="{{ url_for('checked', todo_id=item['id']) }}" method="POST">
+                    <input type="checkbox" data-id="{{ item['id'] }}" {% if item.checked %} checked {% endif %} class="todo-checkbox">
+                </form>
+                <form action="{{ url_for('delete', todo_id=item['id']) }}" method="POST">
+                    <button>delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            var checkboxes = document.querySelectorAll('.todo-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('click', (event) => {
+                    var id = event.target.getAttribute('data-id');
+                    var todoText = document.querySelector(`#todo-job-${id}`);
+                    if (event.target.checked) {
+                        todoText.classList.add('strike');
+                    } else {
+                        todoText.classList.remove('strike');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
