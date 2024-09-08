@@ -21,6 +21,11 @@ def signup():
 def login():
     form = Loginform()
     if form.validate_on_submit():
+        # if email == "a@b.com" and pw == "12345":
+            # flash("Logged in Successfully!")
+        #     return redirect(url_for("home"))
+        # else:
+        #     flash("Incorrect email or password")
         flash(f"Succesfully login {form.email.data}!")
         return redirect(url_for("home"))
     return render_template("login.html", title="login",form=form)
