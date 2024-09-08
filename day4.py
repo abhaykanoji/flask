@@ -20,6 +20,8 @@ def signup():
 @app.route("/login",methods=["get","post"])
 def login():
     form = Loginform()
+    email = form.email.data
+    pw = form.password.data
     if form.validate_on_submit():
         # if email == "a@b.com" and pw == "12345":
             # flash("Logged in Successfully!")
